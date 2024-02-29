@@ -6,6 +6,8 @@ import Modal from "./ui/Modal";
 import Button from "./ui/Button";
 import CopySvg from '../assets/copy.svg';
 import { generateInviteCode, getInviteCode, getInviteRewards, claimRewards } from "../utils/web3";
+import store from "../store/index.js";
+import { saveLoading } from "../store/reducer.js";
 
 const ConnectBtn = styled.button`
     background: #ebe0cc;
@@ -146,6 +148,7 @@ export default function ConnectButton() {
     }
 
     const onClaim = async () => {
+        store.dispatch(saveLoading(true))
         try {
             if (tokens.greatLoong > 0) {
                 await claimRewards(walletProvider, true)
@@ -162,7 +165,10 @@ export default function ConnectButton() {
             }
         } catch (e) {
             console.error(e)
+            const msg = e.message ? `Claim failed: ${e.message.split('(')[0]}` : 'Claim failed'
+            message.error(msg)
         }
+        store.dispatch(saveLoading(false))
     }
 
     useEffect(() => {
