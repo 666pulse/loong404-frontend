@@ -4,16 +4,9 @@ import BabyLABI from "./abi/BabyL.json";
 import DataABI from "./abi/IDataStorage.json";
 import MintABI from "./abi/IMint.json";
 import { ethers } from "ethers";
+import { chain } from "../common/config";
 
-/** 
- * those data only use in test environment
- */
-const GreatLoongAddress = "0x512273384A35D749207Db806cF3E1ed89E5613a3"
-const BabyLoongAddress = "0xafA0860737Fa278812e7374681bC83bc1b031F51"
-const swapAddress = "0x936201bc8eecc9F062b938a9B40Ea25133513d99"
-const dataAddress = "0x9514C7DB087458fE82F1f93cFe4229EB38d88F38"
-const greatLMintAddr = "0xE20e2EdBb15635c9913ac10D91c717018a82fc71"
-const babyLMintAddr = "0x376fB81695D3CA27F0A4324f7EbEE2980Fabd785"
+const { GreatLoongAddress, BabyLoongAddress, swapAddress, dataAddress, greatLMintAddr, babyLMintAddr } = chain.contract;
 
 /**
  * Swap tokens
