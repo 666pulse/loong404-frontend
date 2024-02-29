@@ -5,6 +5,8 @@ import { InputNumber, Select, message } from "antd";
 import styled from "styled-components";
 import ArrowSvg from '../assets/arrow.svg';
 import { swap } from "../utils/web3";
+import store from "../store/index.js";
+import { saveLoading } from "../store/reducer.js";
 
 const Box = styled.div`
     background: #fdfaf1;
@@ -160,13 +162,16 @@ const TokenSwap = () => {
         if (!address) {
             open()
         } else {
+            store.dispatch(saveLoading(true))
             try {
                 await swap(walletProvider, firstInput, firstValue === 1)
                 message.success('Swap success')
             } catch (e) {
+                console.log(e)
                 const msg = e.message ? `Swap failed: ${e.message.split('(')[0]}` : 'Swap failed'
                 message.error(msg)
             }
+            store.dispatch(saveLoading(false))
         }
     }
     return (

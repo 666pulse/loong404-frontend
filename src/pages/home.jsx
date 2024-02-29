@@ -3,12 +3,15 @@ import BgImg from "../assets/home-bg.jpg";
 // import LogoImg from "../assets/demo/logo.svg";
 // import LftImg from "../assets/demo/left-bottom.png";
 // import RhtImg from "../assets/demo/right-bottom.png";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import HomeLogo from "../assets/logoHome.png"
 import TokenSwap from "../components/tokenswap";
 import {Divider, Flex} from "antd";
 import ConnectButton from "../components/ConnectButton";
+import Loading from "../components/loading.jsx";
 
+// #region Styled Components
 const BgBox = styled.div`
     width: 100%;
     min-height: 100vh;
@@ -201,10 +204,10 @@ const BtnRht = styled.div`
        margin: 0 15px;
     }
 `
-
-
+// #endregion
 
 export default function Home() {
+    const loading = useSelector(store => store.loading);
     const navigate = useNavigate()
 
     const toGo = (url) => {
@@ -212,6 +215,7 @@ export default function Home() {
     }
 
     return <BgBox>
+        {loading && <Loading />}
         <LogoBox onClick={()=>toGo("/")}>
             <img src={HomeLogo} alt=""/>
             {/*AILOONG*/}

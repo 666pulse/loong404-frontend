@@ -10,6 +10,8 @@ const Box = styled.div`
     align-items: center;
     justify-content: center;
     z-index: 99;
+    top: 0;
+    left: 0;
 `
 const LoaderBox = styled.div`
     .loader {

@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import Modal from "./ui/Modal";
 import Button from "./ui/Button";
 import CopySvg from '../assets/copy.svg';
-import { generateInviteCode, getInviteCode, getClaimAmount, claimRewards } from "../utils/web3";
+import { generateInviteCode, getInviteCode, getInviteRewards, claimRewards } from "../utils/web3";
 
 const ConnectBtn = styled.button`
     background: #ebe0cc;
@@ -130,8 +130,8 @@ export default function ConnectButton() {
     }
 
     const tokensInit = async () => {
-        const greateAmount = await getClaimAmount(walletProvider, true)
-        const babyAmount = await getClaimAmount(walletProvider, false)
+        const greateAmount = await getInviteRewards(walletProvider, true)
+        const babyAmount = await getInviteRewards(walletProvider, false)
         setTokens({ greatLoong: greateAmount, babyLoong: babyAmount })
     }
 
@@ -156,6 +156,7 @@ export default function ConnectButton() {
             if (tokens.greatLoong > 0 || tokens.babyLoong > 0) {
                 message.success('Claim successfully!')
                 setIsModalOpenReward(false)
+                tokensInit()
             } else {
                 message.warning('No rewards to claim!')
             }
