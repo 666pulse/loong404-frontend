@@ -222,28 +222,33 @@ export function Chat(props: ChatProps) {
         helloMessage={helloMessage}
         request={async (messages) => {
           const date = new Date();
-          const systemMessage: ChatMessage = {
-            content: `今天的日期是${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日`,
-            id: nanoid(),
-            createAt: date.getTime(),
-            updateAt: date.getTime(),
-            role: 'system',
-          };
+          const systemMessages: ChatMessage[] = [
+            {
+              content: `今天的日期是${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日`,
+              id: nanoid(),
+              createAt: date.getTime(),
+              updateAt: date.getTime(),
+              role: 'system',
+            },
+          ];
           const response = await fetch('/api/openai', {
             method: 'POST',
             body: JSON.stringify({
-              messages: [systemMessage].concat(messages),
+              messages: systemMessages.concat(messages),
               userId: userId,
             }),
           });
 
           // 第一次对话后，把轮数加1
           if (isFirstChat && address) {
-            await addUsageCount(
-              address,
-              `${new Date().getFullYear()}-${new Date().getMonth() + 1}`
-            );
-            setIsFirstChat(false);
+            try {
+              await addUsageCount(
+                address,
+                `${new Date().getFullYear()}-${new Date().getMonth() + 1}`
+              );
+            } finally {
+              setIsFirstChat(false);
+            }
           }
           return response;
         }}
